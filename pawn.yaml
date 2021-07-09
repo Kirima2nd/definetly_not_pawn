@@ -1,0 +1,7 @@
+site: ""
+user: Kirima2nd
+repo: definetly_not_pawn
+entry: test.pwn
+output: test.amx
+dependencies:
+- sampctl/samp-stdlib
