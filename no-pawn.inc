@@ -10,6 +10,12 @@
     #if __PawnBuild >= 4
         #pragma option -(-
     #endif
+#else
+    #define OLD_PAWN_DETECTED
+#endif
+
+#if defined OLD_PAWN_DETECTED && !defined DISABLE_OLD_PAWN_WARNING
+    #warning "This include relies on newest community compiler, if you dislike it define "#define DISABLE_OLD_PAWN_WARNING" before no-pawn
 #endif
 
 // function handler
@@ -21,10 +27,15 @@
 #define init::<> main()
 
 // Caller (has no meaning)
-#define Call::%0<%1> %0(%1)
+#define Call::%0<%1> %0(%1);
 
 native no_pawn_print(const format[], {Float,_}:...) = printf;
-#define logprintf%0\10;%9 no_pawn_print(#%0);
+
+#if !defined OLD_PAWN_DETECTED
+    #define logprintf%0\10;%9 no_pawn_print(#%0);
+#else
+    #define logprintf<%0> no_pawn_print(#%0)
+#endif
 
 // Expressions
 #define if<%0>%8\10;%9 if(%0)%8
